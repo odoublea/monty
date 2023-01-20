@@ -2,139 +2,66 @@
 #include "lists.h"
 
 /**
- * sub_handler - handles the sub instruction
+ * rotl_handler - handles the rotl instruction
  * @stack: double pointer to the stack to push to
  * @line_number: number of the line in the file
  */
-void sub_handler(stack_t **stack, unsigned int line_number)
+void rotl_handler(stack_t **stack, unsigned int line_number)
 {
-	int sub = 0;
-	stack_t *node = NULL;
-	stack_t *node_0 = get_dnodeint_at_index(*stack, 0);
-	stack_t *node_1 = get_dnodeint_at_index(*stack, 1);
+	stack_t *temp = *stack;
+	int num  = 0;
 
-	if (dlistint_len(*stack) < 2)
-	{
-		dprintf(STDERR_FILENO, SUB_FAIL, line_number);
-		free_all(1);
-		exit(EXIT_FAILURE);
-	}
+	(void)line_number;
 
-	sub = node_1->n - node_0->n;
+	if (*stack == NULL)
+		return;
+	temp = get_dnodeint_at_index(*stack, 0);
+	num = temp->n;
 	delete_dnodeint_at_index(stack, 0);
-	delete_dnodeint_at_index(stack, 0);
-	node = add_dnodeint(stack, sub);
-	if (!node)
-	{
-		dprintf(STDERR_FILENO, MALLOC_FAIL);
-		free_all(1);
-		exit(EXIT_FAILURE);
-	}
+	add_dnodeint_end(stack, num);
 }
 
 /**
- * div_handler - handles the div instruction
+ * rotr_handler - handles the rotr instruction
  * @stack: double pointer to the stack to push to
  * @line_number: number of the line in the file
  */
-void div_handler(stack_t **stack, unsigned int line_number)
+void rotr_handler(stack_t **stack, unsigned int line_number)
 {
-	int div = 0;
-	stack_t *node = NULL;
-	stack_t *node_0 = get_dnodeint_at_index(*stack, 0);
-	stack_t *node_1 = get_dnodeint_at_index(*stack, 1);
+	stack_t *temp = *stack;
+	int num = 0, len = dlistint_len(*stack);
 
-	if (dlistint_len(*stack) < 2)
-	{
-		dprintf(STDERR_FILENO, DIV_FAIL, line_number);
-		free_all(1);
-		exit(EXIT_FAILURE);
-	}
+	(void)line_number;
 
-	if (node_0->n == 0)
-	{
-		dprintf(STDERR_FILENO, DIV_ZERO, line_number);
-		free_all(1);
-		exit(EXIT_FAILURE);
-	}
-
-	div = node_1->n / node_0->n;
-	delete_dnodeint_at_index(stack, 0);
-	delete_dnodeint_at_index(stack, 0);
-	node = add_dnodeint(stack, div);
-	if (!node)
-	{
-		dprintf(STDERR_FILENO, MALLOC_FAIL);
-		free_all(1);
-		exit(EXIT_FAILURE);
-	}
+	if (*stack == NULL)
+		return;
+	temp = get_dnodeint_at_index(*stack, len - 1);
+	num = temp->n;
+	delete_dnodeint_at_index(stack, len - 1);
+	add_dnodeint(stack, num);
 }
 
 /**
- * mul_handler - handles the mul instruction
+ * stack_handler - handles the stack instruction
  * @stack: double pointer to the stack to push to
  * @line_number: number of the line in the file
  */
-void mul_handler(stack_t **stack, unsigned int line_number)
+void stack_handler(stack_t **stack, unsigned int line_number)
 {
-	int mul = 0;
-	stack_t *node = NULL;
-	stack_t *node_0 = get_dnodeint_at_index(*stack, 0);
-	stack_t *node_1 = get_dnodeint_at_index(*stack, 1);
-
-	if (dlistint_len(*stack) < 2)
-	{
-		dprintf(STDERR_FILENO, MUL_FAIL, line_number);
-		free_all(1);
-		exit(EXIT_FAILURE);
-	}
-
-	mul = node_1->n * node_0->n;
-	delete_dnodeint_at_index(stack, 0);
-	delete_dnodeint_at_index(stack, 0);
-	node = add_dnodeint(stack, mul);
-	if (!node)
-	{
-		dprintf(STDERR_FILENO, MALLOC_FAIL);
-		free_all(1);
-		exit(EXIT_FAILURE);
-	}
+	(void)stack;
+	(void)line_number;
+	data.qflag = 0;
 }
 
+
 /**
- * mod_handler - handles the mod instruction
+ * queue_handler - handles the queue instruction
  * @stack: double pointer to the stack to push to
  * @line_number: number of the line in the file
  */
-void mod_handler(stack_t **stack, unsigned int line_number)
+void queue_handler(stack_t **stack, unsigned int line_number)
 {
-	int mod = 0;
-	stack_t *node = NULL;
-	stack_t *node_0 = get_dnodeint_at_index(*stack, 0);
-	stack_t *node_1 = get_dnodeint_at_index(*stack, 1);
-
-	if (dlistint_len(*stack) < 2)
-	{
-		dprintf(STDERR_FILENO, MOD_FAIL, line_number);
-		free_all(1);
-		exit(EXIT_FAILURE);
-	}
-
-	if (node_0->n == 0)
-	{
-		dprintf(STDERR_FILENO, DIV_ZERO, line_number);
-		free_all(1);
-		exit(EXIT_FAILURE);
-	}
-
-	mod = node_1->n % node_0->n;
-	delete_dnodeint_at_index(stack, 0);
-	delete_dnodeint_at_index(stack, 0);
-	node = add_dnodeint(stack, mod);
-	if (!node)
-	{
-		dprintf(STDERR_FILENO, MALLOC_FAIL);
-		free_all(1);
-		exit(EXIT_FAILURE);
-	}
+	(void)stack;
+	(void)line_number;
+	data.qflag = 1;
 }
